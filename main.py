@@ -99,8 +99,8 @@ def login_by_qrcode():
     print("请扫码登录")
     print()
     print("如果无法扫描以上二维码，可在浏览器打开以下链接扫描：")
-    print(f'https://api.jinloongd.com/v2/qrcode/generate?content={content}')
-    # webbrowser.open(f'https://api.jinloongd.com/v2/qrcode/generate?content={content}', new=2)
+    print(f'https://api.jinloongd.com/v2/action/qrcode/generate?content={content}')
+    # webbrowser.open(f'https://api.jinloongd.com/v2/action/qrcode/generate?content={content}', new=2)
     print()
     print("或将此链接复制到手机B站打开: ", auth_url)
     # Step 3:
