@@ -11,8 +11,8 @@ import requests
 from requests.adapters import HTTPAdapter, Retry
 from requests.cookies import cookiejar_from_dict
 
-APPKEY_TV = 'bca7e84c2d947ac6'
-APPSEC_TV = '60698ba2f68e01ce44738920a0ffe768'
+APPKEY = '4409e2ce8ffd12b8'
+APPSEC = '59b43e04ad6965f34319062b478f83dd'
 
 session = requests.session()
 session.mount('https://', HTTPAdapter(max_retries=Retry(total=5)))
@@ -35,12 +35,12 @@ def is_login() -> (bool, str):
 def get_auth_url_and_auth_code() -> (str, str):
     api_url = 'https://passport.bilibili.com/x/passport-tv-login/qrcode/auth_code'
     payload = {
-        'appkey': APPKEY_TV,
+        'appkey': APPKEY,
         'local_id': '0',
         'ts': int(time.time())
     }
     resp = session.post(url=api_url,
-                        data={**payload, 'sign': sign(params=urlencode(payload), appsec=APPSEC_TV)})
+                        data={**payload, 'sign': sign(params=urlencode(payload), appsec=APPSEC)})
     if resp.json()['code'] != 0:
         raise Exception(resp.json())
     return resp.json()['data']['url'], resp.json()['data']['auth_code']
@@ -50,13 +50,13 @@ def verify_auth(auth_code):
     api_url = 'https://passport.bilibili.com/x/passport-tv-login/qrcode/poll'
     while True:
         payload = {
-            'appkey': APPKEY_TV,
+            'appkey': APPKEY,
             'auth_code': auth_code,
             'local_id': 0,
             'ts': int(time.time())
         }
         resp = session.post(url=api_url,
-                            data={**payload, 'sign': sign(params=urlencode(payload), appsec=APPSEC_TV)})
+                            data={**payload, 'sign': sign(params=urlencode(payload), appsec=APPSEC)})
         resp_code = resp.json()['code']
         # 86039: 二维码尚未确认; 86090: 二维码已扫码未确认
         if resp_code == 86039 or resp_code == 86090:
